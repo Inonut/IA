@@ -42,8 +42,6 @@ class Main {
         game.printCurrentState()
 
         println game.calculateScore(score)*/
-/*test2*/
-
 
 
     }
