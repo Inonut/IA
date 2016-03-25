@@ -7,7 +7,6 @@ import groovy.transform.Sortable
  */
 class SlidingState extends State{
 
-    private int count
     private int[][] currentSolution
     private int x
     private int y
@@ -44,12 +43,30 @@ class SlidingState extends State{
 
     @Override
     boolean equals(Object o) {
-        if(o == null || !o instanceof SlidingState ) {
+        if(o == null ) {
             return false
         }
-        SlidingState slidingState = o as SlidingState
-        return slidingState.x == x && slidingState.y == y &&
-                this.parent.equals(slidingState.parent)
+        int n = 0;
+        Object obj = o
+        if(o instanceof List){
+            n=o[1]
+            obj=o[0]
+        }
+
+        if(obj == null ) {
+            return false
+        }
+        if(!obj instanceof SlidingState){
+            return false
+        }
+        SlidingState slidingState = obj as SlidingState
+
+        if(n>=5){
+            return slidingState.x == x && slidingState.y == y
+        } else{
+            return slidingState.x == x && slidingState.y == y &&
+                    (this.parent != null ? this.parent.equals([slidingState.parent,n+1]) : slidingState.parent == null)
+        }
     }
 
     @Override

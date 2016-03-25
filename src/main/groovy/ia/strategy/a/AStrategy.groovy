@@ -19,8 +19,8 @@ class AStrategy extends Strategy {
             if(openList.size() == 0){
                 return;
             }
-            game.currentState = openList[0]
-            openList.remove(0)
+            game.currentState = openList.min {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}
+            openList.remove(game.currentState)
             closedList.add(game.currentState)
 
             if(game.isOver()){
@@ -35,7 +35,7 @@ class AStrategy extends Strategy {
             succesores = succesores.findAll { !openList.contains(it) && !closedList.contains(it)}.collect()
 
             openList += succesores
-            openList = openList.sort {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}.collect()
+            //openList = openList.sort {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}.collect()
 
         }
 

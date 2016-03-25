@@ -1,7 +1,4 @@
 package ia.game
-
-import ia.strategy.State
-
 /**
  * Created by Dragos on 21.03.2016.
  */
