@@ -1,6 +1,7 @@
 package ia.domain
 
 import groovy.transform.Sortable
+import ia.util.Util
 
 /**
  * Created by Dragos on 23.03.2016.
@@ -61,7 +62,7 @@ class SlidingState extends State{
         }
         SlidingState slidingState = obj as SlidingState
 
-        if(n>=5){
+        if(n>=Util.deep){
             return slidingState.x == x && slidingState.y == y
         } else{
             return slidingState.x == x && slidingState.y == y &&
