@@ -1,5 +1,6 @@
 package ia
 
+import ia.domain.SlidingState
 import ia.game.Game
 import ia.game.Score
 import ia.game.sliding.MapingScore
@@ -24,8 +25,8 @@ class Main {
 
         //Game game = new SlidingGame([[1,2,3],[4,5,6],[7,8,0]],[[1,2,3],[4,5,6],[7,8,0]])
         //Game game = new SlidingGame([[1,2,0],[4,5,3],[7,8,6]],[[1,2,3],[4,5,6],[7,8,0]])
-        Game game = new SlidingGame([[3,2,1],[4,5,6],[0,8,7]],[[1,2,3],[4,5,6],[7,8,0]])
-        //Game game = new SlidingGame([[1,2,3],[4,0,6],[7,5,8]],[[1,2,3],[4,5,6],[7,8,0]])
+        //Game game = new SlidingGame([[3,2,1],[4,5,6],[0,8,7]],[[1,2,3],[4,5,6],[7,8,0]])
+        Game game = new SlidingGame([[1,2,3],[4,0,6],[7,5,8]],[[1,2,3],[4,5,6],[7,8,0]])
         //Game game = new SlidingGame([[2,8,3],[1,6,4],[7,0,5]],[[1,2,3],[4,5,6],[7,8,0]])
         //Game game = new SlidingGame([[1,2,3],[7,5,6],[4,8,0]],[[1,2,3],[4,5,6],[7,8,0]])
         game.score = new MenhattenScore()

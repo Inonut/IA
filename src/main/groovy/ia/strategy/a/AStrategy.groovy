@@ -18,7 +18,9 @@ class AStrategy extends Strategy {
         if(state != null){
             print(state.parent)
 
-            closure(state.currentSolution);
+            if(closure != null){
+                closure(state)
+            }
 
             println ""
             state.currentSolution.each {
@@ -46,27 +48,31 @@ class AStrategy extends Strategy {
 
             if(game.isOver()){
                 currentState = game.currentState
+                game.currentState = closedList[0]
                 return;
             }
 
-            List succesores = actions.collect {it.execute()}
+            List succesores = actions.collect {action ->
+                        def state = action.execute();
+                        if(state != null){
+                            state.actionFromParent = action.clone()
+                            state.parent = game.currentState
+                        }
+                        return state
+                    }
                     .findAll()
-                    .collect {it.parent = game.currentState; return it}
+//                    .collect {it.parent = game.currentState; return it}
                     .collect { elem ->
                         if(!elem.equals(game.currentState.parent)) {
                             return elem
                         }
                     }
                     .findAll()
-                    //.sort {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}
-
-            //succesores = succesores.findAll { !openList.contains(it) && !closedList.contains(it)}.collect()
-            succesores = succesores.findAll { elem ->
-                openList.count {elem.equals(it)} + closedList.count {elem.equals(it)} < 1
-            }.collect()
+                    .findAll { elem ->
+                        openList.count {elem.equals(it)} + closedList.count {elem.equals(it)} < 1
+                    }.collect()
 
             openList += succesores
-            //openList = openList.sort {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}.collect()
 
         }
 

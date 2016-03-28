@@ -76,6 +76,7 @@ public class WhiteSqure implements Action<SlidingGame, SlidingState>{
                 break
         }
 
+        result.actionFromParent = this
         return result
     }
 
@@ -85,15 +86,14 @@ public class WhiteSqure implements Action<SlidingGame, SlidingState>{
     }
 
     @Override
-    def SlidingState rollback() {
+    def Action rollback() {
         switch (target){
-            case UP : return game.next(new WhiteSqure(DOWN)) as SlidingState
-            case DOWN : return game.next(new WhiteSqure(UP)) as SlidingState
-            case LEFT : return game.next(new WhiteSqure(RIGHT)) as SlidingState
-            case RIGHT : return game.next(new WhiteSqure(LEFT)) as SlidingState
+            case UP : return new WhiteSqure(DOWN)
+            case DOWN : return new WhiteSqure(UP)
+            case LEFT : return new WhiteSqure(RIGHT)
+            case RIGHT : return new WhiteSqure(LEFT)
         }
     }
-
 
     @Override
     public String toString() {

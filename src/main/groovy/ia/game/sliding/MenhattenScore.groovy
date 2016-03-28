@@ -13,18 +13,10 @@ class MenhattenScore implements Score<SlidingState>{
     int getScore(SlidingState oldState, SlidingState newState) {
         int score = 0
 
-        oldState.currentSolution.eachWithIndex { line, i ->
-            line.eachWithIndex { value, j ->
-                int x,y
-                newState.currentSolution.eachWithIndex{ int[] entry, int ii ->
-                    entry.eachWithIndex{ int entryj, int jj ->
-                        if(entryj == value){
-                            (x,y)=[ii,jj]
-                        }
-                    }
-                }
-
-                score += Math.abs(x-i)+Math.abs(y-j)
+        oldState.currentSolution.eachWithIndex { line, x ->
+            line.eachWithIndex { elem, y ->
+                List coord = newState.currentSolution.collect {it.collect {it}}.flatten().findIndexOf {it==elem}.collect {[it/3 as int, it%3 as int]}.flatten()
+                score += Math.abs(coord[0]-x) + Math.abs(coord[1]-y)
             }
         }
 

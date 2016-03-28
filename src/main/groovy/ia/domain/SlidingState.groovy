@@ -1,7 +1,9 @@
 package ia.domain
 
 import groovy.transform.Sortable
+import ia.game.Action
 import ia.util.Util
+import jdk.nashorn.internal.objects.annotations.Getter
 
 /**
  * Created by Dragos on 23.03.2016.
@@ -11,6 +13,7 @@ class SlidingState extends State{
     private int[][] currentSolution
     private int x
     private int y
+    private Action actionFromParent
 
     int[][] getCurrentSolution() {
         return currentSolution
@@ -36,51 +39,13 @@ class SlidingState extends State{
         this.y = y
     }
 
-
-    @Override
-    public String toString() {
-        return "x=$x y=$y ${if(parent!= null && parent instanceof SlidingState) return "parentx=$parent.x parenty=$parent.y"}"
+    Action getActionFromParent() {
+        return actionFromParent
     }
 
-    /*@Override
-    boolean equals(Object o) {
-        if(o == null ) {
-            return false
-        }
-        int n = 0;
-        Object obj = o
-        if(o instanceof List){
-            n=o[1]
-            obj=o[0]
-        }
-
-        if(obj == null ) {
-            return false
-        }
-        if(!obj instanceof SlidingState){
-            return false
-        }
-        SlidingState slidingState = obj as SlidingState
-
-        if(n>=Util.deep){
-            return slidingState.x == x && slidingState.y == y
-        } else{
-            return slidingState.x == x && slidingState.y == y &&
-                    (this.parent != null ? this.parent.equals([slidingState.parent,n+1]) : slidingState.parent == null)
-        }
-    }*/
-
-    /*@Override
-    boolean equals(Object obj) {
-        if(obj == null){
-            return false
-        }
-        if(!obj instanceof SlidingState){
-            return false
-        }
-        SlidingState slidingState = obj as SlidingState
-        return slidingState.x == x && slidingState.y == y
-    }*/
+    void setActionFromParent(Action actionFromParent) {
+        this.actionFromParent = actionFromParent
+    }
 
     @Override
     boolean equals(Object obj) {
@@ -91,9 +56,7 @@ class SlidingState extends State{
             return false
         }
         SlidingState slidingState = obj as SlidingState
-        return [slidingState.currentSolution, currentSolution].transpose().collect{a,b ->
-            [a,b].transpose().collect {q,w -> q==w?0:1 }
-        }.flatten().sum() as int == 0
+        return Util.sumDiff(slidingState.currentSolution, currentSolution) == 0
     }
 
     @Override

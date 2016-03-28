@@ -5,7 +5,9 @@ import java.util.function.Consumer
 /**
  * Created by Dragos on 21.03.2016.
  */
-trait Action<T,R>{
+trait Action<T,R> implements Cloneable{
+
+    List listener = new ArrayList()
 
     def abstract void setSource(T elem)
 
@@ -15,5 +17,13 @@ trait Action<T,R>{
 
     def abstract getTarget()
 
-    def abstract R rollback()
+    def abstract Action rollback()
+
+    def void addListener(Closure closure){
+        listener += closure
+    }
+
+    def void removeListener(Closure closure){
+        listener -= closure
+    }
 }

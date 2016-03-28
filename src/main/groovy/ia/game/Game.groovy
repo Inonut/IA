@@ -1,9 +1,13 @@
 package ia.game
+
+import java.awt.event.ActionListener
+
 /**
  * Created by Dragos on 21.03.2016.
  */
 trait Game<S> {
 
+    private List listener = new ArrayList();
     private Score score
 
     def abstract void start()
@@ -30,7 +34,8 @@ trait Game<S> {
     def next(Action<Game,S> action){
         action.setSource(this)
         if(action.verify()){
-            setCurrntState(action.execute())
+            currentState = action.execute()
+            listener*.call(currentState)
             return true
         }
 
@@ -38,8 +43,7 @@ trait Game<S> {
     }
 
     def prev(Action<Game,S> action){
-        action.setSource(this)
-        action.rollback()
+        next(action.rollback())
     }
 
     int calculateScore(S oldState, S newState){
@@ -48,5 +52,13 @@ trait Game<S> {
         }
 
         return this.score.getScore(oldState, newState)
+    }
+
+    def addListener(Closure closure){
+        listener += closure
+    }
+
+    def removeListener(Closure closure){
+        listener -= closure
     }
 }
