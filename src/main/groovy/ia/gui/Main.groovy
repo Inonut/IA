@@ -1,11 +1,13 @@
 package ia.gui
 
+import com.sun.javafx.application.PlatformImpl
 import groovyx.javafx.GroovyFX
 import ia.game.Game
 import ia.game.sliding.MenhattenScore
 import ia.game.sliding.SlidingGame
 import ia.strategy.Strategy
 import ia.strategy.a.AStrategy
+import javafx.application.Platform
 import javafx.scene.layout.Priority
 
 /**
@@ -14,7 +16,7 @@ import javafx.scene.layout.Priority
 
 GroovyFX.start {
     stage(title: 'Sliding puzzle', visible: true, resizable: false) {
-        scene(fill: BLACK, width: 250, height: 300) {
+        scene(fill: "BLACK", width: 250, height: 300) {
             vbox(padding: 10) {
                 gridPane(alignment: "center", vgrow: "ALWAYS", id: "panel"){
                     columnConstraints(halignment: "center", hgrow: "ALWAYS")
@@ -60,8 +62,10 @@ GroovyFX.start {
                             Strategy strategy = new AStrategy()
                             strategy.resolve(game)
                             strategy.prepareResult { mat ->
-                                [mat.collect{it.collect()}.flatten(), owner.panel.children].transpose().collect{ a, b ->
-                                    b.text = a
+                                PlatformImpl.runAndWait{
+                                    [mat.collect{it.collect()}.flatten(), owner.panel.children].transpose().collect{ a, b ->
+                                        b.text = a
+                                    }
                                 }
 
                                 Thread.sleep(500)
