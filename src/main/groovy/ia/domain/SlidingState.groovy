@@ -42,7 +42,7 @@ class SlidingState extends State{
         return "x=$x y=$y ${if(parent!= null && parent instanceof SlidingState) return "parentx=$parent.x parenty=$parent.y"}"
     }
 
-    @Override
+    /*@Override
     boolean equals(Object o) {
         if(o == null ) {
             return false
@@ -68,6 +68,32 @@ class SlidingState extends State{
             return slidingState.x == x && slidingState.y == y &&
                     (this.parent != null ? this.parent.equals([slidingState.parent,n+1]) : slidingState.parent == null)
         }
+    }*/
+
+    /*@Override
+    boolean equals(Object obj) {
+        if(obj == null){
+            return false
+        }
+        if(!obj instanceof SlidingState){
+            return false
+        }
+        SlidingState slidingState = obj as SlidingState
+        return slidingState.x == x && slidingState.y == y
+    }*/
+
+    @Override
+    boolean equals(Object obj) {
+        if(obj == null){
+            return false
+        }
+        if(!obj instanceof SlidingState){
+            return false
+        }
+        SlidingState slidingState = obj as SlidingState
+        return [slidingState.currentSolution, currentSolution].transpose().collect{a,b ->
+            [a,b].transpose().collect {q,w -> q==w?0:1 }
+        }.flatten().sum() as int == 0
     }
 
     @Override
