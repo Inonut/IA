@@ -1,7 +1,10 @@
 package ia.strategy.a
 
+import com.sun.javafx.application.PlatformImpl
 import ia.domain.SlidingState
 import ia.strategy.Strategy
+import javafx.application.Platform
+import javafx.scene.control.Alert
 
 /**
  * Created by Dragos on 24.03.2016.
@@ -9,10 +12,13 @@ import ia.strategy.Strategy
 class AStrategy extends Strategy {
 
     private SlidingState currentState;
+    private Closure closure;
 
     private print(SlidingState state){
         if(state != null){
             print(state.parent)
+
+            closure(state.currentSolution);
 
             println ""
             state.currentSolution.each {
@@ -67,7 +73,20 @@ class AStrategy extends Strategy {
     }
 
     @Override
-    def prepareResult() {
-        print(currentState)
+    def prepareResult(Closure closure) {
+        this.closure = closure
+        if(currentState == null){
+            PlatformImpl.runAndWait{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                alert.setContentText("Nu s-a putut gasi o solutie");
+
+                alert.showAndWait();
+            }
+        } else {
+            print(currentState)
+        }
+
+
     }
 }

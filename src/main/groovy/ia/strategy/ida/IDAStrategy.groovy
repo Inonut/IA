@@ -24,6 +24,11 @@ class IDAStrategy extends Strategy{
 
     }
 
+    @Override
+    def prepareResult(Closure closure) {
+        return null
+    }
+
     private def search(State node, int g, int bound) {
         int f = g + game.calculateScore(game.currentState,game.finalState)
         if(f > bound) return f
@@ -60,9 +65,5 @@ class IDAStrategy extends Strategy{
         return min
     }
 
-    @Override
-    def prepareResult() {
-        println ""
 
-    }
 }
