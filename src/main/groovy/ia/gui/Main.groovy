@@ -2,12 +2,14 @@ package ia.gui
 
 import com.sun.javafx.application.PlatformImpl
 import groovyx.javafx.GroovyFX
+import ia.domain.State
 import ia.game.Game
 import ia.game.sliding.MenhattenScore
 import ia.game.sliding.SlidingGame
 import ia.strategy.Strategy
 import ia.strategy.a.AStrategy
 import javafx.application.Platform
+import javafx.scene.control.Alert
 import javafx.scene.layout.Priority
 
 /**
@@ -16,7 +18,7 @@ import javafx.scene.layout.Priority
 
 Thread.start {
     GroovyFX.start {
-        stage(title: 'Sliding puzzle', visible: true, resizable: false) {
+        stage(title: 'Sliding puzzle', visible: true, resizable: false, onCloseRequest: {Platform.exit(); System.exit(0);}) {
             scene(fill: "BLACK", width: 250, height: 300) {
                 vbox(padding: 10) {
                     gridPane(alignment: "center", vgrow: "ALWAYS", id: "panel"){
@@ -34,7 +36,7 @@ Thread.start {
                                 button("${k++}",
                                         row: i,
                                         column: j,
-                                        style: "-fx-background-color: #2f4f4f; -fx-padding: 10 20 10 20; -fx-font-size: 40;",
+                                        style: "-fx-background-color: #BC8F8F; -fx-padding: 10 20 10 20; -fx-font-size: 40;",
                                         onAction: {e->
                                             e.target.text = ((e.target.text as int) + 1) %9
                                         }
@@ -66,15 +68,29 @@ Thread.start {
                                                 b.text = a
                                             }
                                         }
-
+                                        Thread.sleep(600)
                                     }
 
                                     Strategy strategy = new AStrategy()
-                                    strategy.resolve(game)
-                                    strategy.prepareResult { state ->
-                                        if(state.actionFromParent){
-                                            game.next(state.actionFromParent)
+                                    strategy.prepareResult { msg ->
+
+                                        switch (msg){
+                                            case String :
+                                                new Alert(Alert.AlertType.INFORMATION).with {
+                                                    it.setContentText(msg)
+                                                    it.showAndWait()
+                                                }
+                                                break
+                                            case State :
+                                                msg.actionFromParent == null?: game.next(msg.actionFromParent)
+                                                break
                                         }
+                                    }
+
+                                    Thread.start {
+                                        e.target.disable = true
+                                        strategy.resolve(game)
+                                        e.target.disable = false
                                     }
 
                                 }

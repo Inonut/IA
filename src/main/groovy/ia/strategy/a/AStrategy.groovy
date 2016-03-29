@@ -1,7 +1,9 @@
 package ia.strategy.a
 
 import com.sun.javafx.application.PlatformImpl
+import groovyx.gpars.GParsPool
 import ia.domain.SlidingState
+import ia.domain.State
 import ia.strategy.Strategy
 import javafx.application.Platform
 import javafx.scene.control.Alert
@@ -11,10 +13,10 @@ import javafx.scene.control.Alert
  */
 class AStrategy extends Strategy {
 
-    private SlidingState currentState;
+    private State currentState;
     private Closure closure;
 
-    private print(SlidingState state){
+    private print(State state){
         if(state != null){
             print(state.parent)
 
@@ -34,46 +36,42 @@ class AStrategy extends Strategy {
     @Override
     protected resolve() {
 
-        def openList = [game.currentState]
-        def closedList = []
+        GParsPool.withPool {
 
+            def openList = [game.currentState]
+            def closedList = []
 
-        while(true){
-            if(openList.size() == 0){
-                return;
-            }
-            game.currentState = openList.min {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}
-            openList.remove(game.currentState)
-            closedList.add(game.currentState)
+            while(true){
+                if(openList.size() == 0){
 
-            if(game.isOver()){
-                currentState = game.currentState
-                game.currentState = closedList[0]
-                return;
-            }
-
-            List succesores = actions.collect {action ->
-                        def state = action.execute();
-                        if(state != null){
-                            state.actionFromParent = action.clone()
-                            state.parent = game.currentState
-                        }
-                        return state
+                    def msg = "Nu s-a putut gasi o solutie"
+                    println msg
+                    if(this.closure != null){
+                        this.closure(msg)
                     }
-                    .findAll()
-//                    .collect {it.parent = game.currentState; return it}
-                    .collect { elem ->
-                        if(!elem.equals(game.currentState.parent)) {
-                            return elem
-                        }
-                    }
-                    .findAll()
-                    .findAll { elem ->
-                        openList.count {elem.equals(it)} + closedList.count {elem.equals(it)} < 1
-                    }.collect()
 
-            openList += succesores
+                    return;
+                }
+                game.currentState = openList.minParallel {a,b -> game.calculateScore(a,game.finalState) - game.calculateScore(b,game.finalState)}
+                openList.remove(game.currentState)
+                closedList.add(game.currentState)
 
+                if(game.isOver()){
+                    currentState = game.currentState
+                    game.currentState = closedList[0]
+
+                    print(currentState)
+
+                    return;
+                }
+
+
+                openList += actions.collectParallel {action -> return action.clone().execute() }
+                        .findAllParallel {it != null && !it.equals(game.currentState.parent)}
+                        .collectParallel {it.parent = game.currentState; return it}
+                        .findAllParallel { elem -> openList.count {elem.equals(it)} + closedList.count {elem.equals(it)} < 1 }
+                        .collectParallel {it}
+            }
         }
 
     }
@@ -81,18 +79,5 @@ class AStrategy extends Strategy {
     @Override
     def prepareResult(Closure closure) {
         this.closure = closure
-        if(currentState == null){
-            PlatformImpl.runAndWait{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-                alert.setContentText("Nu s-a putut gasi o solutie");
-
-                alert.showAndWait();
-            }
-        } else {
-            print(currentState)
-        }
-
-
     }
 }
