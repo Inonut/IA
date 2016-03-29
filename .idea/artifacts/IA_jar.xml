@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="IA:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/IA_jar</output-path>
+    <root id="archive" name="IA.jar">
+      <element id="module-output" name="IA" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.gpars/gpars/1.2.1/c3ea0fbcd67a163bd5e3a3efdaa3428262d0d437/gpars-1.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.jsr166-mirror/jsr166y/1.7.0/8547fcb1c29b4f8c745c3f49a536aca58fc30f54/jsr166y-1.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.groovyfx/groovyfx/0.4.0/3b6181c478ea171736f6a7837c0e312d9d00023c/groovyfx-0.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-all/2.4.0/f8062abce6bb2ced6206d7208d6bf7a2da162883/groovy-all-2.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.2/baa28ca0269720d94c9f0cafef35a9ac63991de7/asm-5.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.multiverse/multiverse-core/0.7.0/db77d55199bc5672f05f5d725b70dd10033251ed/multiverse-core-0.7.0.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Gradle: org.codehaus.gpars:gpars:1.2.1" />
+      <element id="library" level="project" name="Gradle: org.codehaus.groovy:groovy-all:2.4.0" />
+      <element id="library" level="project" name="Gradle: org.codehaus.groovyfx:groovyfx:0.4.0" />
+      <element id="library" level="project" name="Gradle: org.codehaus.jsr166-mirror:jsr166y:1.7.0" />
+      <element id="library" level="project" name="Gradle: org.multiverse:multiverse-core:0.7.0" />
+      <element id="library" level="project" name="Gradle: org.ow2.asm:asm:5.0.2" />
+    </root>
+  </artifact>
+</component>
