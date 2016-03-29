@@ -33,7 +33,7 @@ Thread.start {
                         int k = 0
                         for(int i=0;i<n;i++){
                             for(int j=0;j<n;j++){
-                                button("${k++}",
+                                button("${(++k)%9}",
                                         row: i,
                                         column: j,
                                         style: "-fx-background-color: #BC8F8F; -fx-padding: 10 20 10 20; -fx-font-size: 40;",
@@ -68,7 +68,7 @@ Thread.start {
                                                 b.text = a
                                             }
                                         }
-                                        Thread.sleep(600)
+                                        Thread.sleep(300)
                                     }
 
                                     Strategy strategy = new AStrategy()
@@ -76,9 +76,11 @@ Thread.start {
 
                                         switch (msg){
                                             case String :
-                                                new Alert(Alert.AlertType.INFORMATION).with {
-                                                    it.setContentText(msg)
-                                                    it.showAndWait()
+                                                PlatformImpl.runAndWait{
+                                                    new Alert(Alert.AlertType.INFORMATION).with {
+                                                        it.setContentText(msg)
+                                                        it.showAndWait()
+                                                    }
                                                 }
                                                 break
                                             case State :
