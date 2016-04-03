@@ -5,13 +5,5 @@ package ia.domain;
  */
 public class State implements Cloneable{
 
-    protected State parent
-
-    State getParent() {
-        return parent
-    }
-
-    void setParent(State parent) {
-        this.parent = parent
-    }
+    def State parent
 }

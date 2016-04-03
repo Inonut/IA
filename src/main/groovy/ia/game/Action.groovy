@@ -7,7 +7,7 @@ import java.util.function.Consumer
  */
 trait Action<T,R> implements Cloneable{
 
-    List listener = new ArrayList()
+    private List listener = new ArrayList()
 
     def abstract void setSource(T elem)
 

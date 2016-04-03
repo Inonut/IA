@@ -10,7 +10,7 @@ import ia.game.Score
 class MenhattenScore implements Score<SlidingState>{
 
     @Override
-    int getScore(SlidingState oldState, SlidingState newState) {
+    def int getScore(SlidingState oldState, SlidingState newState) {
         int score = 0
 
         oldState.currentSolution.eachWithIndex { line, x ->

@@ -10,42 +10,10 @@ import jdk.nashorn.internal.objects.annotations.Getter
  */
 class SlidingState extends State{
 
-    private int[][] currentSolution
-    private int x
-    private int y
-    private Action actionFromParent
-
-    int[][] getCurrentSolution() {
-        return currentSolution
-    }
-
-    void setCurrentSolution(int[][] currentSolution) {
-        this.currentSolution = currentSolution
-    }
-
-    int getX() {
-        return x
-    }
-
-    void setX(int x) {
-        this.x = x
-    }
-
-    int getY() {
-        return y
-    }
-
-    void setY(int y) {
-        this.y = y
-    }
-
-    Action getActionFromParent() {
-        return actionFromParent
-    }
-
-    void setActionFromParent(Action actionFromParent) {
-        this.actionFromParent = actionFromParent
-    }
+    def int[][] currentSolution
+    def int x
+    def int y
+    def Action actionFromParent
 
     @Override
     boolean equals(Object obj) {

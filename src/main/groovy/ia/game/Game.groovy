@@ -24,7 +24,7 @@ trait Game<S> {
 
     def abstract void printCurrentState()
 
-    def abstract setCurrentState(S currentState)
+    def abstract void setCurrentState(S currentState)
 
     def setScore(Score score){
         this.score=score

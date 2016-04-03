@@ -8,10 +8,10 @@ import ia.game.Game
  */
 class SlidingGame implements Game<SlidingState>{
 
-    private int dim
-    private SlidingState initState
-    private SlidingState finalState
-    private SlidingState currentState
+    def int dim
+    def SlidingState initState
+    def SlidingState finalState
+    def SlidingState currentState
 
     def SlidingGame(def initState, def finalState) {
         this.initState = new SlidingState(currentSolution: initState as int[][])
@@ -86,32 +86,4 @@ class SlidingGame implements Game<SlidingState>{
                 '}';
     }
 
-    int getDim() {
-        return dim
-    }
-
-    void setDim(int dim) {
-        this.dim = dim
-    }
-
-    SlidingState getInitState() {
-        return initState
-    }
-
-    void setInitState(SlidingState initState) {
-        this.initState = initState
-    }
-
-    SlidingState getFinalState() {
-        return finalState
-    }
-
-    void setFinalState(SlidingState finalState) {
-        this.finalState = finalState
-    }
-
-    @Override
-    def setCurrentState(SlidingState currentState) {
-        this.currentState = currentState
-    }
 }

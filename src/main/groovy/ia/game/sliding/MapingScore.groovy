@@ -11,7 +11,7 @@ class MapingScore implements Score<SlidingState>{
 
 
     @Override
-    int getScore(SlidingState oldState, SlidingState newState) {
+    def int getScore(SlidingState oldState, SlidingState newState) {
         return Util.sumDiff(oldState.currentSolution, newState.currentSolution)
     }
 }
