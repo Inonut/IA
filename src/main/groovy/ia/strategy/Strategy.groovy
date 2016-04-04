@@ -25,7 +25,6 @@ abstract class Strategy {
 
     protected def abstract resolve()
 
-
     def abstract prepareResult(Closure closure)
 
 }

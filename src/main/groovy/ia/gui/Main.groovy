@@ -9,12 +9,15 @@ import ia.game.sliding.SlidingGame
 import ia.strategy.Strategy
 import ia.strategy.a.AStrategy
 import javafx.application.Platform
+import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Alert
 import javafx.scene.layout.Priority
 
 /**
  * Created by Dragos on 28.03.2016.
  */
+
+def nrStep = new SimpleStringProperty()
 
 Thread.start {
     GroovyFX.start {
@@ -95,8 +98,11 @@ Thread.start {
                                                     }
                                                 }
                                                 break
-                                            case State :
-                                                msg.actionFromParent == null?: game.next(msg.actionFromParent)
+                                            case List :
+                                                PlatformImpl.runAndWait {
+                                                    nrStep.set(msg[1].toString())
+                                                }
+                                                msg[0].actionFromParent == null?: game.next(msg[0].actionFromParent)
                                                 break
                                         }
                                     }
@@ -109,6 +115,8 @@ Thread.start {
 
                                 }
                         )
+                        label("Nr. pasi")
+                        label( text: bind(nrStep) )
                     }
                 }
             }

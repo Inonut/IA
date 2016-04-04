@@ -22,7 +22,7 @@ class AStrategy extends Strategy {
             print(state.parent)
 
             if(closure != null){
-                closure(state)
+                closure([state,count])
             }
 
             println "\n${++count}"
