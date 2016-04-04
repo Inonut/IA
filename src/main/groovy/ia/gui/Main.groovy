@@ -38,7 +38,19 @@ Thread.start {
                                         column: j,
                                         style: "-fx-background-color: #BC8F8F; -fx-padding: 10 20 10 20; -fx-font-size: 40;",
                                         onAction: {e->
-                                            e.target.text = ((e.target.text as int) + 1) %9
+
+                                            List coordThis = owner.panel.children.findIndexOf{it.text == e.target.text}.collect{[it/3 as int, it%3 as int, it]}.flatten()
+                                            List coord0 = owner.panel.children.findIndexOf{it.text == "0"}.collect{[it/3 as int, it%3 as int, it]}.flatten()
+
+                                            if((coordThis[0]+1 == coord0[0] || coordThis[0]-1 == coord0[0]) && coordThis[1] == coord0[1] ||
+                                                    (coordThis[1]+1 == coord0[1] || coordThis[1]-1 == coord0[1])  && coordThis[0] == coord0[0]){
+
+                                                def aux = owner.panel.children[coordThis[2]].text
+                                                owner.panel.children[coordThis[2]].text = owner.panel.children[coord0[2]].text
+                                                owner.panel.children[coord0[2]].text = aux
+                                            }
+
+                                            //e.target.text = ((e.target.text as int) + 1) %9
                                         }
                                 )
 
@@ -46,7 +58,7 @@ Thread.start {
                         }
 
                     }
-                    hbox(){
+                    hbox(spacing: 20){
                         button("Amesteca",
                                 onAction: {e ->
                                     List list = (0..8).collect()
